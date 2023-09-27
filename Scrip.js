@@ -11,3 +11,7 @@ function showPosition(position){
     x.innerHTML= "Latitude:" + position.coords.latitude+ 
     "<br>Longitude:"+ position.coords.longitude; 
 }
+function toggleDarkMode(){
+    var body= document.body; 
+    body.classList.toggle("dark-mode"); 
+}
