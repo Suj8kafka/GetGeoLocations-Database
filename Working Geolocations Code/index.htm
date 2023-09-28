@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html>
+<body onload="getLocation()">
 
+<h2>JavaScript Geolocation API</h2>
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p id="demo"></p>
+
+<!-- Include the Firebase JavaScript SDK -->
+
+
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+<script>
+const x = document.getElementById("demo");
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyC_SF82GQR6edfhZsOkbj1EIES0KB-2PmA",
+  authDomain: "the-progressbar-form-database.firebaseapp.com",
+  databaseURL: "https://the-progressbar-form-database-default-rtdb.firebaseio.com",
+  projectId: "the-progressbar-form-database",
+  storageBucket: "the-progressbar-form-database.appspot.com",
+  messagingSenderId: "702353361774",
+  appId: "1:702353361774:web:024dd39e7e0856f87c8f7f",
+  measurementId: "G-V4P14FTLY4"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  const latitude = position.coords.latitude;
+  const longitude = position.coords.longitude;
+
+  x.innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
+
+  saveLocation(latitude, longitude);
+}
+
+function saveLocation(latitude, longitude) {
+  const database = firebase.database();
+  const locationRef = database.ref('locations');
+  locationRef.push().set({
+    latitude: latitude,
+    longitude: longitude
+  }, function(error) {
+    if (error) {
+      console.log("Error saving location: " + error.message);
+    } else {
+      console.log("Location saved successfully.");
+    }
+  });
+}
+</script>
+
+</body>
+</html>
